@@ -447,3 +447,17 @@ void computeLocalDepthFeature(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud,
             // Computes the normalization term and the variance
             double normalization_term = 1 / (sqrt(2 * M_PI) * smoothing_factor);
             double variance_term = -1 / (2 * (smoothing_factor * smoothing_factor));
+
+                   for (int voxel_idx = 0; voxel_idx < counter_voxel - 1; voxel_idx++)
+            {
+                //cout << " thread: " << omp_get_thread_num() << endl;
+                // Extract all the distances
+                std::vector<float> point_distances = dists[voxel_idx];
+                if (!point_distances.empty())
+                {
+                    // Multiply with variance term
+                    std::transform(point_distances.begin(), point_distances.end(), point_distances.begin(),
+                                   std::bind1st(std::multiplies<float>(), variance_term));
+
+                    // Exponent
+                    std::transform(point_distances.begin(), point_distances.end(), point_distances.begin(), std::ptr_fun<float, float>(std::exp));
