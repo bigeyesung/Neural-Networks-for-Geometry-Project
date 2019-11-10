@@ -6,3 +6,10 @@
 
 typedef pcl::PointCloud<pcl::PointXYZ>::Ptr PointCloudPtr;
 typedef pcl::PointXYZ PointInT;
+
+typedef struct
+{
+    float x;
+    float y;
+    float z;
+} Vertex;
