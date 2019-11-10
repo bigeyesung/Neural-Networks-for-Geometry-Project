@@ -471,3 +471,12 @@ void computeLocalDepthFeature(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud,
 
                     // Sum up all the depths value to the voxel depth value
                     descriptor[tid][voxel_idx] = sum_of_elems;
+
+                       }
+                else
+                {
+                    // if no points in the neighborhood set the voxel depth to 0
+                    descriptor[tid][voxel_idx] = 0;
+                }
+
+            }
