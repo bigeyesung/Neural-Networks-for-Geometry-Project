@@ -479,4 +479,12 @@ void computeLocalDepthFeature(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud,
                     descriptor[tid][voxel_idx] = 0;
                 }
 
+   // Normalize the descriptor
+            float descriptor_sum = descriptor[tid].sum();
+            if (descriptor_sum != 0)
+                descriptor[tid] = descriptor[tid] / descriptor_sum;
+
+            for (int d = 0; d < descriptor[tid].size(); ++d)
+                DIMATCH_Descriptor[i][d] = descriptor[tid][d];
+
             }
