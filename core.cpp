@@ -265,3 +265,19 @@ void toldiComputeLRF(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud,
         pcl::PointCloud<pcl::PointXYZ>::Ptr sphere_neighbor(new pcl::PointCloud<pcl::PointXYZ>);//local surface
         pcl::PointCloud<pcl::PointXYZ>::Ptr sphere_neighbor_z(new pcl::PointCloud<pcl::PointXYZ>);//local surface for computing the z-axis of LRF
         query_point = cloud->points[indices[i]];
+
+          if (kdtree.radiusSearch(query_point, sup_radius, point_idx, point_dst) > 10)//only if there are more than 10 points in the local surface
+        {
+
+            for (j = 0; j < point_idx.size(); j++)
+            {
+
+                test.x = cloud->points[point_idx[j]].x - query_point.x;
+                test.y = cloud->points[point_idx[j]].y - query_point.y;
+                test.z = cloud->points[point_idx[j]].z - query_point.z;
+
+                sphere_neighbor_z->points.push_back(test);
+            }
+
+            // Save points for feature computation
+			neighbors.at(indices[i]) = point_idx;
