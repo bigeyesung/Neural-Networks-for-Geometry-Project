@@ -394,3 +394,16 @@ void computeLocalDepthFeature(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud,
 
     #pragma omp parallel for shared(cloud,evaluation_points,indices_neighbors,counter_voxel,DIMATCH_Descriptor,progress_counter) private(tid,extract)  num_threads(threads_)
     for (int i = 0; i < evaluation_points.size(); i++)
+     {
+
+        pcl::PointCloud<pcl::PointXYZ>::Ptr sphere_neighbors(new pcl::PointCloud<pcl::PointXYZ>);
+        pcl::PointCloud<pcl::PointXYZ>::Ptr sphere_neighbors_transformed(new pcl::PointCloud<pcl::PointXYZ>);
+        pcl::PointIndices::Ptr inliers(new pcl::PointIndices());
+        pcl::KdTreeFLANN<pcl::PointXYZ> kdtree;
+        std::vector<std::vector<size_t>> indices;
+        std::vector<std::vector<float>> dists;
+
+        tid = omp_get_thread_num();
+        descriptor[tid].setZero(counter_voxel);
+        // Save query points coordinates
+        queryPoint = cloud->points[evaluation_points[i]];
