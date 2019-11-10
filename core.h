@@ -39,3 +39,9 @@ std::vector<int> readKeypoints(std::string filename);
 bool fileExist(const std::string& name);
 void saveVector(std::string filename, const std::vector<std::vector<float>> descriptor);
 flann::Matrix<float> initializeGridMatrix(const int n, float x_step, float y_step, float z_step);
+
+//	TOLDI_LRF functions
+void toldiComputeZaxis(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, Vertex &z_axis, std::vector<float>pointDst);
+void toldiComputeXaxis(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud,Vertex z_axis,float sup_radius, std::vector<float> PointDist,Vertex &x_axis);
+void toldiComputeYaxis(Vertex x_axis,Vertex z_axis,Vertex &y_axis);
+void toldiComputeLRF(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, std::vector<int> indices, float sup_radius, float smoothingFactor, std::vector<LRF>&Cloud_LRF, std::vector<std::vector <int>> &Neighbors, std::vector<std::vector <int>> &NeighborsSmoothingIDX, std::vector<std::vector <float>> &NeighborsSmoothingDistance);
