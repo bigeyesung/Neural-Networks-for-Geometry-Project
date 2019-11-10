@@ -386,3 +386,11 @@ void computeLocalDepthFeature(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud,
     }
 
     int tid;
+      // Create path for saving
+    const char* path = "data";
+    boost::filesystem::path dir(path);
+    boost::filesystem::create_directory(dir);
+    int progress_counter = 0;
+
+    #pragma omp parallel for shared(cloud,evaluation_points,indices_neighbors,counter_voxel,DIMATCH_Descriptor,progress_counter) private(tid,extract)  num_threads(threads_)
+    for (int i = 0; i < evaluation_points.size(); i++)
