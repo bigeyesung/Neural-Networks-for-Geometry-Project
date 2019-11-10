@@ -35,3 +35,14 @@ bool processCommandLine(int argc, char** argv,
 			("outputFolder,o", po::value<std::string>(&output_folder)->default_value("./data/sdv_voxel_grid/"),
 				"Output folder path.")
 			;
+        po::variables_map vm;
+		po::store(po::parse_command_line(argc, argv, desc), vm);
+
+		if (vm.count("help"))
+		{
+			std::cout << desc << "\n";
+			return false;
+		}
+
+		po::notify(vm);
+	}
