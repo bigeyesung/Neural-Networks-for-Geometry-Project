@@ -162,3 +162,20 @@ void toldiComputeZaxis(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, Vertex &z_axis
     z_axis.x = normal(0);
     z_axis.y = normal(1);
     z_axis.z = normal(2);
+
+      // z-axis sign disambiguity
+    float z_sign = 0;
+    for (i = 0; i < cloud->points.size(); i++)
+    {
+        float vec_x = query_point.x - cloud->points[i].x;
+        float vec_y = query_point.y - cloud->points[i].y;
+        float vec_z = query_point.z - cloud->points[i].z;
+        z_sign += (vec_x*z_axis.x + vec_y*z_axis.y + vec_z*z_axis.z);
+    }
+    if (z_sign < 0)
+    {
+        z_axis.x = -z_axis.x;
+        z_axis.y = -z_axis.y;
+        z_axis.z = -z_axis.z;
+    }
+}
