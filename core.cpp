@@ -100,3 +100,10 @@ void saveVector(std::string filename, const std::vector<std::vector<float>> desc
     for (int i = 0; i < descriptor.size(); i++)
     {
         for (int j = 0; j < descriptor[i].size(); j++)
+        {
+            writerTemp = descriptor[i][j];
+            outFile.write(reinterpret_cast<const char*>(&writerTemp), sizeof(float));
+        }
+    }
+    outFile.close();
+}
