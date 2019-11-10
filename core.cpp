@@ -343,3 +343,11 @@ void transformCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, LRF pointLRF, pcl
             cloud->points[i + 1].z - point.z);
 
         transformed_point = matrix * transformed_point;
+
+        pcl::PointXYZ new_point;
+        new_point.x = transformed_point(0);
+        new_point.y = transformed_point(1);
+        new_point.z = transformed_point(2);
+        transformed_cloud->points[i] = new_point;
+    }
+}        
