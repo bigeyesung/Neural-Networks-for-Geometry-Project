@@ -488,3 +488,16 @@ void computeLocalDepthFeature(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud,
                 DIMATCH_Descriptor[i][d] = descriptor[tid][d];
 
             }
+              }
+        else
+        {
+            for (int voxel_idx = 0; voxel_idx < counter_voxel - 1; voxel_idx++)
+            {
+                descriptor[tid][voxel_idx] = 0;
+            }
+
+            for (int d = 0; d < descriptor[tid].size(); ++d)
+                DIMATCH_Descriptor[i][d] = descriptor[tid][d];
+
+        }
+    }
