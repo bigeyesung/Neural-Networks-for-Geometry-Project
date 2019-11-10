@@ -210,3 +210,19 @@ void toldiComputeXaxis(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, Vertex z_axis,
         wei_temp = pow(wei_temp, 2);
         dist_weight.push_back(wei_temp);
     }
+
+      Vertex x_axis_temp = { 0.0f,0.0f,0.0f };
+    for (i = 0; i < cloud->points.size(); i++)
+    {
+        float weight_sum = dist_weight[i] * sign_weight[i];
+        x_axis_temp.x += weight_sum*vec_proj[i].x;
+        x_axis_temp.y += weight_sum*vec_proj[i].y;
+        x_axis_temp.z += weight_sum*vec_proj[i].z;
+    }
+    //Normalization
+    float size = sqrt(pow(x_axis_temp.x, 2) + pow(x_axis_temp.y, 2) + pow(x_axis_temp.z, 2));
+    x_axis_temp.x /= size;
+    x_axis_temp.y /= size;
+    x_axis_temp.z /= size;
+    x_axis = x_axis_temp;
+}
