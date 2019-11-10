@@ -429,3 +429,13 @@ void computeLocalDepthFeature(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud,
                 data[j][1] = sphere_neighbors_transformed->points[j].y;
                 data[j][2] = sphere_neighbors_transformed->points[j].z;
             }
+
+     flann::SearchParams search_parameters = flann::SearchParams();
+            search_parameters.checks = -1;
+            search_parameters.sorted = false;
+            search_parameters.use_heap = flann::FLANN_True;
+
+
+            flann::KDTreeSingleIndexParams index_parameters = flann::KDTreeSingleIndexParams();
+            flann::KDTreeSingleIndex<flann::L2_3D<float> > index(data, index_parameters);
+            index.buildIndex();
