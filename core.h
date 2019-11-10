@@ -21,3 +21,7 @@ typedef struct
     Vertex y_axis;
     Vertex z_axis;
 } LRF;
+
+#include <pcl/surface/gp3.h>
+#include <pcl/surface/mls.h>
+#include <flann/flann.hpp>
