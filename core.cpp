@@ -306,3 +306,13 @@ void toldiComputeLRF(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud,
             toldiComputeYaxis(x_axis, z_axis, y_axis);
             LRF temp = { indices[i],x_axis,y_axis,z_axis };
 			cloud_LRF.at(indices[i]) = temp;
+
+               }
+        else
+        {
+            std::cout << "Less then ten points in the neighborhood!!!" << std::endl;
+            LRF temp = { NULL_POINTID,{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
+			cloud_LRF.at(indices[i]) = temp;
+        }
+    }
+}
