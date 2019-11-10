@@ -79,3 +79,10 @@ std::vector<int> readKeypoints(std::string filename)
     in.close();
     return result;
 }
+
+// Checks if the file exists
+bool fileExist(const std::string& name)
+{
+    std::ifstream f(name.c_str());  // New enough C++ library will accept just name
+    return f.is_open();
+}
