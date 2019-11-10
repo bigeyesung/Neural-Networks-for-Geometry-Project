@@ -350,4 +350,15 @@ void transformCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, LRF pointLRF, pcl
         new_point.z = transformed_point(2);
         transformed_cloud->points[i] = new_point;
     }
-}        
+}   
+
+// estimate the SDV voxel grid for all interes points
+void computeLocalDepthFeature(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud,
+                              std::vector<int> evaluation_points,
+                              std::vector<std::vector<int>> indices_neighbors,
+                              std::vector<LRF> cloud_LRF,
+                              float sup_radius,
+                              flann::Matrix<float> voxel_coordinates,
+                              int num_voxels,
+                              float smoothing_factor,
+                              std::string saveFileName)
