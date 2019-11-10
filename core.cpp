@@ -226,3 +226,12 @@ void toldiComputeXaxis(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, Vertex z_axis,
     x_axis_temp.z /= size;
     x_axis = x_axis_temp;
 }
+
+// Estimates the Y axis of the local reference frame
+void toldiComputeYaxis(Vertex x_axis, Vertex z_axis, Vertex &y_axis)
+{
+    Eigen::Vector3f x(x_axis.x, x_axis.y, x_axis.z);
+    Eigen::Vector3f z(z_axis.x, z_axis.y, z_axis.z);
+    Eigen::Vector3f y;
+
+    y = x.cross(z);//cross product
