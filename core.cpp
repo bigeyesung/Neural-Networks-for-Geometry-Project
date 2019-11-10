@@ -46,3 +46,16 @@ bool processCommandLine(int argc, char** argv,
 
 		po::notify(vm);
 	}
+    catch (std::exception& e)
+	{
+		std::cerr << "ERROR: " << e.what() << "\n";
+		return false;
+	}
+	catch (...)
+	{
+		std::cerr << "Unknown error!" << "\n";
+		return false;
+	}
+
+	return true;
+}
