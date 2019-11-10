@@ -86,3 +86,17 @@ bool fileExist(const std::string& name)
     std::ifstream f(name.c_str());  // New enough C++ library will accept just name
     return f.is_open();
 }
+
+// Saves the descriptor to a binary csv file
+void saveVector(std::string filename, const std::vector<std::vector<float>> descriptor)
+{
+    std::cout << "Saving Features to a CSV file:" << std::endl;
+    std::cout << filename << std::endl;
+
+    std::ofstream outFile;
+    outFile.open(filename, std::ios::binary);
+
+    float writerTemp;
+    for (int i = 0; i < descriptor.size(); i++)
+    {
+        for (int j = 0; j < descriptor[i].size(); j++)
