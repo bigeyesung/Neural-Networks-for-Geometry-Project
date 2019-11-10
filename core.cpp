@@ -107,3 +107,21 @@ void saveVector(std::string filename, const std::vector<std::vector<float>> desc
     }
     outFile.close();
 }
+
+// Initizales a grid using the step size and the number of voxels per side
+flann::Matrix<float> initializeGridMatrix(const int n, float x_step, float y_step, float z_step)
+{
+    int grid_size = n*n*n;
+    flann::Matrix<float> input(new float[grid_size * 3], grid_size, 3);
+
+    float xs = -(n / 2)*x_step + 0.5*x_step;
+    float ys = -(n / 2)*y_step + 0.5*y_step;
+    float zs = -(n / 2)*z_step + 0.5*z_step;
+
+    for (int i = 0; i < n; i++)
+    {
+        //move on x axis
+        for (int j = 0; j < n; j++)
+        {
+            //move on y axis
+            for (int k = 0; k < n; k++)
