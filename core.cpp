@@ -58,4 +58,13 @@ bool processCommandLine(int argc, char** argv,
 	}
 
 	return true;
-}
+} 
+
+// Reads a file with the interest point indices file
+std::vector<int> readKeypoints(std::string filename)
+{
+    char separator = ' ';
+    std::vector<int> result;
+    std::string row, item;
+
+    std::ifstream in(filename);
