@@ -368,3 +368,11 @@ void computeLocalDepthFeature(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud,
     pcl::PointXYZ queryPoint;
     pcl::ExtractIndices<pcl::PointXYZ> extract;
     int counter_voxel = num_voxels * num_voxels * num_voxels;
+     // Create the filtering object
+    std::string saving_path_file;
+    int threads_ = omp_get_max_threads();
+    std::cout << "Starting SDV computation!" << std::endl;
+    std::cout << threads_ << " threads will be used!!" << std::endl;
+
+    // Initialize the space for the SDV values
+    std::vector <std::vector <float>> DIMATCH_Descriptor(evaluation_points.size(), std::vector<float>(counter_voxel, 0));
