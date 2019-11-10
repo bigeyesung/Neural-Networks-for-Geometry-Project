@@ -135,3 +135,15 @@ flann::Matrix<float> initializeGridMatrix(const int n, float x_step, float y_ste
     }
     return input;
 }
+
+// Estimates the Z axis of the local reference frame
+void toldiComputeZaxis(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, Vertex &z_axis, std::vector<float> point_dst)
+{
+    int i;
+    pcl::PointXYZ query_point = cloud->points[0];
+    // calculate covariance matrix
+    Eigen::Matrix3f Cov = Eigen::Matrix3f::Zero();
+    Eigen::Matrix<float, 4, 1> centroid;
+    centroid[0] = query_point.x;
+    centroid[1] = query_point.y;
+    centroid[2] = query_point.z;
