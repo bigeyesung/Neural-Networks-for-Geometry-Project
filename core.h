@@ -25,3 +25,10 @@ typedef struct
 #include <pcl/surface/gp3.h>
 #include <pcl/surface/mls.h>
 #include <flann/flann.hpp>
+
+//
+typedef pcl::PointCloud<pcl::PointXYZ>::Ptr PointCloudPtr;
+typedef pcl::PointXYZ PointT;
+typedef pcl::PointCloud<pcl::PointXYZ> PointCloud;
+typedef pcl::PointNormal PointNormalT;
+typedef pcl::PointCloud<PointNormalT> PointCloudWithNormals;
