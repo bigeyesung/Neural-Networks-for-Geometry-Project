@@ -179,3 +179,19 @@ void toldiComputeZaxis(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, Vertex &z_axis
         z_axis.z = -z_axis.z;
     }
 }
+
+// Estimates the X axis of the local reference frame
+void toldiComputeXaxis(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, Vertex z_axis, float sup_radius, std::vector<float> point_dst, Vertex &x_axis)
+{
+    int i, j;
+    pcl::PointXYZ query_point = cloud->points[0];
+    //
+    std::vector<Vertex> vec_proj;
+    std::vector<float> dist_weight, sign_weight;//store weights w1,w2
+    for (i = 0; i < cloud->points.size(); i++)
+    {
+        Vertex temp;
+        Vertex pq = { cloud->points[i].x - query_point.x,cloud->points[i].y - query_point.y,cloud->points[i].z - query_point.z };
+        float proj = z_axis.x*pq.x + z_axis.y*pq.y + z_axis.z*pq.z;
+        if (proj >= 0)
+            sign_weight.push_back(pow(proj, 2));
