@@ -316,3 +316,20 @@ void toldiComputeLRF(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud,
         }
     }
 }
+
+// transform the local neighbhorhood of the selecred interest point to its canonical representation defined by the estimated local reference frame
+void transformCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, LRF pointLRF, pcl::PointCloud<pcl::PointXYZ>::Ptr &transformed_cloud)
+{
+    pcl::PointXYZ point = cloud->points[0]; //the centroid of the local surface
+    int number_of_points = cloud->points.size() - 1; // remove the first point which is centroid
+    transformed_cloud->points.resize(number_of_points);
+    Eigen::Matrix3f matrix;
+    matrix(0, 0) = pointLRF.x_axis.x;
+    matrix(0, 1) = pointLRF.x_axis.y;
+    matrix(0, 2) = pointLRF.x_axis.z;
+    matrix(1, 0) = pointLRF.y_axis.x;
+    matrix(1, 1) = pointLRF.y_axis.y;
+    matrix(1, 2) = pointLRF.y_axis.z;
+    matrix(2, 0) = pointLRF.z_axis.x;
+    matrix(2, 1) = pointLRF.z_axis.y;
+    matrix(2, 2) = pointLRF.z_axis.z;
