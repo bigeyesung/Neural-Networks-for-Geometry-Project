@@ -362,3 +362,9 @@ void computeLocalDepthFeature(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud,
                               int num_voxels,
                               float smoothing_factor,
                               std::string saveFileName)
+
+{
+    // Iterrate over all the points for which the descriptor is to be computed
+    pcl::PointXYZ queryPoint;
+    pcl::ExtractIndices<pcl::PointXYZ> extract;
+    int counter_voxel = num_voxels * num_voxels * num_voxels;
