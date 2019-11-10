@@ -413,3 +413,19 @@ void computeLocalDepthFeature(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud,
         extract.setIndices(inliers);
         extract.setNegative(false);
         extract.filter(*sphere_neighbors);
+
+           // Transform the neighbors to the local reference frame
+        if (sphere_neighbors->points.size() != 0)
+        {
+            transformCloud(sphere_neighbors, cloud_LRF[evaluation_points[i]], sphere_neighbors_transformed);
+
+            flann::Matrix<float> data(new float[sphere_neighbors_transformed->size() * 3], sphere_neighbors_transformed->size(), 3);
+
+
+
+            for (int j = 0; j < sphere_neighbors_transformed->size(); j++)
+            {
+                data[j][0] = sphere_neighbors_transformed->points[j].x;
+                data[j][1] = sphere_neighbors_transformed->points[j].y;
+                data[j][2] = sphere_neighbors_transformed->points[j].z;
+            }
