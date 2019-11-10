@@ -281,3 +281,16 @@ void toldiComputeLRF(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud,
 
             // Save points for feature computation
 			neighbors.at(indices[i]) = point_idx;
+
+                std::transform(point_dst.begin(), point_dst.end(), point_dst.begin(), std::ptr_fun<float, float>(std::sqrt));
+            // Find first element that has a distance bigger than the smoothing threshold
+            auto lower = std::lower_bound(point_dst.begin(), point_dst.end(), smoothingFactor);
+            // Index of the last element smaller then the threshold
+            int  index_last_element = lower - point_dst.begin();
+
+            // Copy neighbours to vector
+            std::vector<int> point_idx_smoothing(&point_idx[0], &point_idx[index_last_element]);
+            std::vector<float> point_distance_smoothing(&point_dst[0], &point_dst[index_last_element]);
+
+			neighbors_smoothing_idx.at(indices[i]) = point_idx_smoothing;
+			neighbors_smoothing_distance.at(indices[i]) = point_distance_smoothing;
