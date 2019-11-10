@@ -333,3 +333,13 @@ void transformCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, LRF pointLRF, pcl
     matrix(2, 0) = pointLRF.z_axis.x;
     matrix(2, 1) = pointLRF.z_axis.y;
     matrix(2, 2) = pointLRF.z_axis.z;
+
+ // Iterrate over all the points and save the transfomed version (+1 because one point is ommited at the start )
+    for (int i = 0; i < number_of_points; i++)
+    {
+        Eigen::Vector3f transformed_point(
+            cloud->points[i + 1].x - point.x,
+            cloud->points[i + 1].y - point.y,
+            cloud->points[i + 1].z - point.z);
+
+        transformed_point = matrix * transformed_point;
