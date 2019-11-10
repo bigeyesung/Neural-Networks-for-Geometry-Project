@@ -259,3 +259,9 @@ void toldiComputeLRF(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud,
     kdtree.setInputCloud(cloud);
     pcl::PointXYZ query_point;
     pcl::PointXYZ test;
+      //LRF calculation
+    for (i = 0; i < indices.size(); i++)
+    {
+        pcl::PointCloud<pcl::PointXYZ>::Ptr sphere_neighbor(new pcl::PointCloud<pcl::PointXYZ>);//local surface
+        pcl::PointCloud<pcl::PointXYZ>::Ptr sphere_neighbor_z(new pcl::PointCloud<pcl::PointXYZ>);//local surface for computing the z-axis of LRF
+        query_point = cloud->points[indices[i]];
