@@ -407,3 +407,9 @@ void computeLocalDepthFeature(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud,
         descriptor[tid].setZero(counter_voxel);
         // Save query points coordinates
         queryPoint = cloud->points[evaluation_points[i]];
+           // Extract neighbors from point cloud
+        extract.setInputCloud(cloud);
+        inliers->indices = indices_neighbors[evaluation_points[i]];
+        extract.setIndices(inliers);
+        extract.setNegative(false);
+        extract.filter(*sphere_neighbors);
