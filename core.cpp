@@ -235,3 +235,8 @@ void toldiComputeYaxis(Vertex x_axis, Vertex z_axis, Vertex &y_axis)
     Eigen::Vector3f y;
 
     y = x.cross(z);//cross product
+
+    y_axis.x = y(0);
+    y_axis.y = y(1);
+    y_axis.z = y(2);
+}
