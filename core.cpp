@@ -147,3 +147,18 @@ void toldiComputeZaxis(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, Vertex &z_axis
     centroid[0] = query_point.x;
     centroid[1] = query_point.y;
     centroid[2] = query_point.z;
+
+    Eigen::Vector4f queryPointVector = query_point.getVector4fMap();
+    Eigen::Matrix<float, Eigen::Dynamic, 4> vij(point_dst.size(), 4);
+    int valid_nn_points = 0;
+    double distance = 0.0;
+    double sum = 0.0;
+
+    pcl::computeCovarianceMatrix(*cloud, centroid, Cov);
+
+    EIGEN_ALIGN16 Eigen::Vector3f::Scalar eigen_min;
+    EIGEN_ALIGN16 Eigen::Vector3f normal;
+    pcl::eigen33(Cov, eigen_min, normal);
+    z_axis.x = normal(0);
+    z_axis.y = normal(1);
+    z_axis.z = normal(2);
