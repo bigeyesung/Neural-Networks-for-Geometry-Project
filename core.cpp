@@ -294,3 +294,15 @@ void toldiComputeLRF(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud,
 
 			neighbors_smoothing_idx.at(indices[i]) = point_idx_smoothing;
 			neighbors_smoothing_distance.at(indices[i]) = point_distance_smoothing;
+
+            for (j = 0; j < point_idx.size(); j++)
+            {
+                sphere_neighbor->points.push_back(cloud->points[point_idx[j]]);
+            }
+
+            Vertex x_axis, y_axis, z_axis;
+            toldiComputeZaxis(sphere_neighbor_z, z_axis, point_dst);
+            toldiComputeXaxis(sphere_neighbor, z_axis, sup_radius, point_dst, x_axis);
+            toldiComputeYaxis(x_axis, z_axis, y_axis);
+            LRF temp = { indices[i],x_axis,y_axis,z_axis };
+			cloud_LRF.at(indices[i]) = temp;
