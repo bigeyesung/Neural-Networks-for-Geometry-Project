@@ -125,3 +125,13 @@ flann::Matrix<float> initializeGridMatrix(const int n, float x_step, float y_ste
         {
             //move on y axis
             for (int k = 0; k < n; k++)
+            {
+                //move on z axis
+                input[i + n*j + n*n*k][0] = xs + x_step * i;
+                input[i + n*j + n*n*k][1] = ys + y_step * j;
+                input[i + n*j + n*n*k][2] = zs + z_step * k;
+            }
+        }
+    }
+    return input;
+}
