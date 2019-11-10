@@ -250,3 +250,12 @@ void toldiComputeLRF(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud,
                      std::vector<std::vector <int>>& neighbors,
                      std::vector<std::vector <int>>& neighbors_smoothing_idx,
                      std::vector<std::vector <float>>& neighbors_smoothing_distance)
+{
+    int i, j, m;
+    // Initialize all the variables
+    pcl::KdTreeFLANN<pcl::PointXYZ> kdtree;
+    std::vector<int> point_idx;
+    std::vector<float> point_dst;
+    kdtree.setInputCloud(cloud);
+    pcl::PointXYZ query_point;
+    pcl::PointXYZ test;
