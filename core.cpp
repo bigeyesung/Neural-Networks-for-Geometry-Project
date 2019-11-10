@@ -68,3 +68,14 @@ std::vector<int> readKeypoints(std::string filename)
     std::string row, item;
 
     std::ifstream in(filename);
+
+       while (getline(in, row))
+    {
+        std::stringstream ss(row);
+        std::getline(ss, item, separator);
+        result.push_back(std::stoi(item.c_str()));
+    }
+
+    in.close();
+    return result;
+}
