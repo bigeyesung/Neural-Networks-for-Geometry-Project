@@ -195,3 +195,18 @@ void toldiComputeXaxis(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, Vertex z_axis,
         float proj = z_axis.x*pq.x + z_axis.y*pq.y + z_axis.z*pq.z;
         if (proj >= 0)
             sign_weight.push_back(pow(proj, 2));
+
+              else
+            sign_weight.push_back(-pow(proj, 2));
+        temp.x = pq.x - proj*z_axis.x;
+        temp.y = pq.y - proj*z_axis.y;
+        temp.z = pq.z - proj*z_axis.z;
+        vec_proj.push_back(temp);
+    }
+
+    for (i = 0; i < point_dst.size(); i++)
+    {
+        float wei_temp = sup_radius - point_dst[i];
+        wei_temp = pow(wei_temp, 2);
+        dist_weight.push_back(wei_temp);
+    }
