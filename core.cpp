@@ -376,3 +376,13 @@ void computeLocalDepthFeature(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud,
 
     // Initialize the space for the SDV values
     std::vector <std::vector <float>> DIMATCH_Descriptor(evaluation_points.size(), std::vector<float>(counter_voxel, 0));
+      // Initialize the point to the descriptor for each thread used
+    Eigen::VectorXf *descriptor = new Eigen::VectorXf[threads_];
+
+
+    for (int i = 0; i < threads_; i++)
+    {
+        descriptor[i].setZero(counter_voxel);
+    }
+
+    int tid;
