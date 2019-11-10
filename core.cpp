@@ -461,3 +461,13 @@ void computeLocalDepthFeature(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud,
 
                     // Exponent
                     std::transform(point_distances.begin(), point_distances.end(), point_distances.begin(), std::ptr_fun<float, float>(std::exp));
+
+                        // Normalization term
+                    std::transform(point_distances.begin(), point_distances.end(), point_distances.begin(),
+                                   std::bind1st(std::multiplies<float>(), normalization_term));
+
+                    // Sum the elements
+                    float sum_of_elems = std::accumulate(point_distances.begin(), point_distances.end(), 0.0f) / point_distances.size();
+
+                    // Sum up all the depths value to the voxel depth value
+                    descriptor[tid][voxel_idx] = sum_of_elems;
