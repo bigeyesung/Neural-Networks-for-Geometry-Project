@@ -32,3 +32,10 @@ typedef pcl::PointXYZ PointT;
 typedef pcl::PointCloud<pcl::PointXYZ> PointCloud;
 typedef pcl::PointNormal PointNormalT;
 typedef pcl::PointCloud<PointNormalT> PointCloudWithNormals;
+
+//	Utility functions
+bool processCommandLine(int argc, char** argv, std::string &file_cloud, float &support_radius, int &num_voxels, float &smoothing_kernel_width, std::string &file_keypoints, std::string &output_folder);
+std::vector<int> readKeypoints(std::string filename);
+bool fileExist(const std::string& name);
+void saveVector(std::string filename, const std::vector<std::vector<float>> descriptor);
+flann::Matrix<float> initializeGridMatrix(const int n, float x_step, float y_step, float z_step);
