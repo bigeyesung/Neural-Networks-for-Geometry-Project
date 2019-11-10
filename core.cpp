@@ -240,3 +240,13 @@ void toldiComputeYaxis(Vertex x_axis, Vertex z_axis, Vertex &y_axis)
     y_axis.y = y(1);
     y_axis.z = y(2);
 }
+
+// Compute the lrf accordin to the method from toldi paper, for the points selected with the indices
+void toldiComputeLRF(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud,
+                     std::vector<int> indices,
+                     float sup_radius,
+                     float smoothingFactor,
+                     std::vector<LRF> &cloud_LRF,
+                     std::vector<std::vector <int>>& neighbors,
+                     std::vector<std::vector <int>>& neighbors_smoothing_idx,
+                     std::vector<std::vector <float>>& neighbors_smoothing_distance)
