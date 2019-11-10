@@ -439,3 +439,11 @@ void computeLocalDepthFeature(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud,
             flann::KDTreeSingleIndexParams index_parameters = flann::KDTreeSingleIndexParams();
             flann::KDTreeSingleIndex<flann::L2_3D<float> > index(data, index_parameters);
             index.buildIndex();
+
+               // Square the smoothing factor as flann uses sqaured distances
+            float smoothing_factor_sqrd = 9 * smoothing_factor*smoothing_factor;
+            index.radiusSearch(voxel_coordinates, indices, dists, smoothing_factor_sqrd, search_parameters);
+
+            // Computes the normalization term and the variance
+            double normalization_term = 1 / (sqrt(2 * M_PI) * smoothing_factor);
+            double variance_term = -1 / (2 * (smoothing_factor * smoothing_factor));
