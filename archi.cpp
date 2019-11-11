@@ -68,3 +68,11 @@ def conv_block(input_anc, input_pos, channels, dropout_flag, dropout_rate, laxer
         conv_output_pos = ops.dropout(conv_output_pos, dropout_rate=dropout_rate)
 
     return conv_output_anc, conv_output_pos
+
+    def out_block(input_anc, input_pos, channels, laxer_idx, stride_input=1, k_size=8, padding_type = 'VALID', reuse=False):
+
+    # Last conv layer, flatten the output
+    weights = ops.weight([k_size, k_size, k_size, channels[0], channels[1]],
+                         layer_name='wcnn' + str(laxer_idx+1), reuse=reuse)
+
+    bias = ops.bias([1, 1, 1, channels[1]], layer_name='bcnn' + str(laxer_idx + 1),reuse=reuse)
