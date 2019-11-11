@@ -42,3 +42,12 @@ def network_architecture(x_anc,x_pos, dropout_rate, config, reuse=False):
 
         return ops.l2_normalize(input_anc), \
                ops.l2_normalize(input_pos)
+def conv_block(input_anc, input_pos, channels, dropout_flag, dropout_rate, laxer_idx, stride_input=1, k_size=3,
+               padding_type='SAME', reuse=False):
+
+    # Traditional 3D conv layer followed by batch norm and relu activation
+
+    i_size = input_anc.get_shape().as_list()[-2]/stride_input
+
+    weights = ops.weight([k_size, k_size, k_size, channels[0], channels[1]],
+                         layer_name='wcnn' + str(laxer_idx+1), reuse=reuse)
