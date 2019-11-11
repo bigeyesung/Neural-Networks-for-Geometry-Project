@@ -24,3 +24,14 @@ def network_architecture(x_anc,x_pos, dropout_rate, config, reuse=False):
     input_anc = x_anc
     input_pos = x_pos
     layer_index = 0
+
+    # Loop over the desired layers
+    with tf.name_scope('3DIM_cnn') as scope:
+        for layer in np.arange(0, len(channels)-2):
+            scope_name = "3DIM_cnn" + str(layer_index+1)
+            with tf.name_scope(scope_name) as inner_scope:
+                input_anc, input_pos = conv_block(input_anc, input_pos, [channels[layer], channels[layer + 1]],
+                                                  dropout_flag[layer], dropout_rate, layer_index,
+                                                  stride_input=stride[layer], reuse=reuse)
+
+            layer_index += 1
