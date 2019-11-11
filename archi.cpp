@@ -62,3 +62,9 @@ def conv_block(input_anc, input_pos, channels, dropout_flag, dropout_rate, laxer
 
     conv_output_anc = ops.relu(conv_output_anc)
     conv_output_pos = ops.relu(conv_output_pos)
+
+     if dropout_flag:
+        conv_output_anc = ops.dropout(conv_output_anc, dropout_rate=dropout_rate)
+        conv_output_pos = ops.dropout(conv_output_pos, dropout_rate=dropout_rate)
+
+    return conv_output_anc, conv_output_pos
