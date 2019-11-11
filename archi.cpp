@@ -82,3 +82,8 @@ def conv_block(input_anc, input_pos, channels, dropout_flag, dropout_rate, laxer
 
     conv_output_anc = ops.batch_norm(conv_output_anc)
     conv_output_pos = ops.batch_norm(conv_output_pos)
+
+    conv_output_anc = tf.contrib.layers.flatten(conv_output_anc)
+    conv_output_pos = tf.contrib.layers.flatten(conv_output_pos)
+
+    return conv_output_anc, conv_output_pos
