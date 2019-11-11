@@ -35,3 +35,10 @@ def network_architecture(x_anc,x_pos, dropout_rate, config, reuse=False):
                                                   stride_input=stride[layer], reuse=reuse)
 
             layer_index += 1
+
+             with tf.name_scope('3DIM_cnn7') as inner_scope:
+            input_anc, input_pos = out_block(input_anc, input_pos, [channels[-2], channels[-1]],
+                                             layer_index, reuse=reuse)
+
+        return ops.l2_normalize(input_anc), \
+               ops.l2_normalize(input_pos)
