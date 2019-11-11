@@ -76,3 +76,9 @@ def conv_block(input_anc, input_pos, channels, dropout_flag, dropout_rate, laxer
                          layer_name='wcnn' + str(laxer_idx+1), reuse=reuse)
 
     bias = ops.bias([1, 1, 1, channels[1]], layer_name='bcnn' + str(laxer_idx + 1),reuse=reuse)
+
+     conv_output_anc = tf.add(ops.conv3d(input_anc, weights, stride=[stride_input,stride_input, stride_input], padding=padding_type), bias)
+    conv_output_pos = tf.add(ops.conv3d(input_pos, weights, stride=[stride_input, stride_input, stride_input], padding=padding_type), bias)
+
+    conv_output_anc = ops.batch_norm(conv_output_anc)
+    conv_output_pos = ops.batch_norm(conv_output_pos)
