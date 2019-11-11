@@ -19,3 +19,8 @@ def network_architecture(x_anc,x_pos, dropout_rate, config, reuse=False):
     # Apply dropout in the 6th layer
     dropout_flag = np.zeros(len(channels))
     dropout_flag[5] = 1
+
+     # Initalize data
+    input_anc = x_anc
+    input_pos = x_pos
+    layer_index = 0
