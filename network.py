@@ -33,3 +33,11 @@ class NetworkBuilder(object):
         tf_config.gpu_options.allow_growth = True
 
         self.sess = tf.Session(config=tf_config)
+
+    def _build_placeholder(self):
+
+        # Create placeholders for the input to the siamese network
+        self.anchor_input = tf.placeholder(dtype=tf.float32, shape=[None, int(np.cbrt(self.config.input_dim)),
+                                                                    int(np.cbrt(self.config.input_dim)),
+                                                                    int(np.cbrt(self.config.input_dim)), 1],
+                                           name='X_reference')
