@@ -17,3 +17,12 @@ class NetworkBuilder(object):
 
         # Initialize tensorflow session
         self._init_tensorflow()
+
+        # Build the network
+        self._build_placeholder()
+        self._build_data_loader()
+        self._build_model()
+        self._build_loss()
+        self._build_optim()
+        self._build_summary()
+        self._build_writer()
