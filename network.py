@@ -55,3 +55,8 @@ class NetworkBuilder(object):
         if not os.path.exists(self.config.training_data_folder):
             print('Error directory: {}'.format(self.config.training_data_folder))
             raise ValueError('The training directory {} does not exist.'.format(self.config.training_data_folder))
+
+                    # Get name of all tfrecord files
+        training_data_files = glob.glob(self.config.training_data_folder + '*.tfrecord')
+        nr_training_files = len(training_data_files)
+        print('Number of training files: {}'.format(nr_training_files))
