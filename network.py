@@ -102,3 +102,17 @@ class NetworkBuilder(object):
                                                                                   self.positive_input,
                                                                                   self.keep_probability, self.config,
                                                                                   reuse=True)
+
+                                                                                      def _build_loss(self):
+        # Import the loss function
+        from core import loss
+
+        # Create mask for the batch_hard loss
+        positiveIDS = np.arange(self.config.batch_size)
+        positiveIDS = tf.reshape(positiveIDS, [self.config.batch_size])
+
+        self.dists = loss.cdist(self.anchor_output, self.positive_output, metric='euclidean')
+        self.losses = loss.LOSS_CHOICES['batch_hard'](self.dists, positiveIDS,
+                                                      self.config.margin, batch_precision_at_k=None)
+
+        # tf.summary.scalar("loss", self.losses)
