@@ -137,3 +137,12 @@ class NetworkBuilder(object):
 
         # Merge all summary op
         self.summary = tf.summary.merge_all()
+
+            def _build_writer(self):
+        self.saver = tf.train.Saver()
+        self.saver = tf.train.Saver(max_to_keep=self.config.max_epochs)
+
+        self.time_stamp_format = "%f_%S_%H_%M_%d_%m_%Y"
+        time_stamp = datetime.datetime.now().strftime(self.time_stamp_format)
+        self.base_file_name = 'lr_{}_batchSize_{}_outDim_{}_{}'.format(self.config.learning_rate, self.config.batch_size,
+                                                                       self.config.output_dim, time_stamp)
