@@ -116,3 +116,18 @@ class NetworkBuilder(object):
                                                       self.config.margin, batch_precision_at_k=None)
 
         # tf.summary.scalar("loss", self.losses)
+
+            def _build_optim(self):
+        # Build the optimizer
+        starter_learning_rate = self.config.learning_rate
+        learning_rate = tf.train.exponential_decay(starter_learning_rate, self.global_step,
+                                                   self.config.decay_step, self.config.decay_rate,
+                                                   staircase=True)
+        tf.summary.scalar('learning_rate', learning_rate)
+
+        # Merge all summary op
+        self.summary_op = tf.summary.merge_all()
+
+        # Adam optimization, with the adaptable learning_rate
+        optimizer = tf.train.AdamOptimizer(learning_rate).minimize(self.losses, global_step=self.global_step)
+        self.optimization_parameters = [optimizer, self.losses, self.summary_op]
