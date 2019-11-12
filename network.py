@@ -131,3 +131,9 @@ class NetworkBuilder(object):
         # Adam optimization, with the adaptable learning_rate
         optimizer = tf.train.AdamOptimizer(learning_rate).minimize(self.losses, global_step=self.global_step)
         self.optimization_parameters = [optimizer, self.losses, self.summary_op]
+
+            def _build_summary(self):
+        """Build summary ops."""
+
+        # Merge all summary op
+        self.summary = tf.summary.merge_all()
