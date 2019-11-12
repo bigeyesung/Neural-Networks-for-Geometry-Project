@@ -41,3 +41,8 @@ class NetworkBuilder(object):
                                                                     int(np.cbrt(self.config.input_dim)),
                                                                     int(np.cbrt(self.config.input_dim)), 1],
                                            name='X_reference')
+
+        self.positive_input = tf.placeholder(dtype=tf.float32, shape=[None, int(np.cbrt(self.config.input_dim)),
+                                                                      int(np.cbrt(self.config.input_dim)),
+                                                                      int(np.cbrt(self.config.input_dim)), 1],
+                                             name='X_positive')
