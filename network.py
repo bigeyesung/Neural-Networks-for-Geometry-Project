@@ -72,3 +72,11 @@ class NetworkBuilder(object):
 
         # Repeat the input indefinitely
         dataset = dataset.repeat()
+
+                # Generate batches
+        dataset = dataset.batch(self.config.batch_size)
+        dataset = dataset.prefetch(self.config.batch_size * 2)
+
+        # Create a one-shot iterator
+        iterator = dataset.make_one_shot_iterator()
+        self.anc_training_batch, self.pos_training_batch = iterator.get_next()
