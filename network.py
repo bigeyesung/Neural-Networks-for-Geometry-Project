@@ -66,3 +66,9 @@ class NetworkBuilder(object):
 
         # Parse the record into tensors.
         dataset = dataset.map(ops._parse_function)
+
+                # Shuffle the data set
+        dataset = dataset.shuffle(buffer_size=self.config.shuffle_size_TFRecords)
+
+        # Repeat the input indefinitely
+        dataset = dataset.repeat()
