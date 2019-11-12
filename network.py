@@ -49,3 +49,9 @@ class NetworkBuilder(object):
 
                 # Global step for optimization
         self.global_step = tf.Variable(0, trainable=False)
+
+            def _build_data_loader(self):
+
+        if not os.path.exists(self.config.training_data_folder):
+            print('Error directory: {}'.format(self.config.training_data_folder))
+            raise ValueError('The training directory {} does not exist.'.format(self.config.training_data_folder))
