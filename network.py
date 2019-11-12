@@ -80,3 +80,9 @@ class NetworkBuilder(object):
         # Create a one-shot iterator
         iterator = dataset.make_one_shot_iterator()
         self.anc_training_batch, self.pos_training_batch = iterator.get_next()
+
+            def _build_model(self):
+        """Build 3DSmoothNet network for testing."""
+
+        # -------------------- Network archintecture --------------------
+        from core.architecture import network_architecture
