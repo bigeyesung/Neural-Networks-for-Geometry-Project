@@ -46,3 +46,6 @@ class NetworkBuilder(object):
                                                                       int(np.cbrt(self.config.input_dim)),
                                                                       int(np.cbrt(self.config.input_dim)), 1],
                                              name='X_positive')
+
+                # Global step for optimization
+        self.global_step = tf.Variable(0, trainable=False)
