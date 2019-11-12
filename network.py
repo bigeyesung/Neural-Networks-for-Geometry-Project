@@ -86,3 +86,13 @@ class NetworkBuilder(object):
 
         # -------------------- Network archintecture --------------------
         from core.architecture import network_architecture
+
+                # Build graph
+        print("Building the 3DSmoothNet graph")
+
+        self.keep_probability = tf.placeholder(tf.float32)
+
+        # Build network for training usinf the tf_records files
+        self.anchor_output, self.positive_output = network_architecture(self.anc_training_batch,
+                                                                        self.pos_training_batch,
+                                                                        self.keep_probability, self.config)
