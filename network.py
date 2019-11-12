@@ -26,3 +26,10 @@ class NetworkBuilder(object):
         self._build_optim()
         self._build_summary()
         self._build_writer()
+
+    def _init_tensorflow(self):
+        # Initialize tensorflow and let the gpu memory to grow
+        tf_config = tf.ConfigProto()
+        tf_config.gpu_options.allow_growth = True
+
+        self.sess = tf.Session(config=tf_config)
