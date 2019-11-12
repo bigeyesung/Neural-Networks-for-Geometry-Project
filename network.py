@@ -96,3 +96,9 @@ class NetworkBuilder(object):
         self.anchor_output, self.positive_output = network_architecture(self.anc_training_batch,
                                                                         self.pos_training_batch,
                                                                         self.keep_probability, self.config)
+
+                                                                                # Build network for testing and validation that uses the placeholders for data input
+        self.test_anchor_output, self.test_positive_output = network_architecture(self.anchor_input,
+                                                                                  self.positive_input,
+                                                                                  self.keep_probability, self.config,
+                                                                                  reuse=True)
