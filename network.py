@@ -8,6 +8,7 @@ from core import ops
 
 from tqdm import trange
 
+
 class NetworkBuilder(object):
     """Network builder class """
 
@@ -47,33 +48,33 @@ class NetworkBuilder(object):
                                                                       int(np.cbrt(self.config.input_dim)), 1],
                                              name='X_positive')
 
-                # Global step for optimization
+        # Global step for optimization
         self.global_step = tf.Variable(0, trainable=False)
 
-            def _build_data_loader(self):
+    def _build_data_loader(self):
 
         if not os.path.exists(self.config.training_data_folder):
             print('Error directory: {}'.format(self.config.training_data_folder))
             raise ValueError('The training directory {} does not exist.'.format(self.config.training_data_folder))
 
-                    # Get name of all tfrecord files
+            # Get name of all tfrecord files
         training_data_files = glob.glob(self.config.training_data_folder + '*.tfrecord')
         nr_training_files = len(training_data_files)
         print('Number of training files: {}'.format(nr_training_files))
 
-                # Creates a data set that reads all of the examples from file names.
+        # Creates a data set that reads all of the examples from file names.
         dataset = tf.data.TFRecordDataset(training_data_files)
 
         # Parse the record into tensors.
         dataset = dataset.map(ops._parse_function)
 
-                # Shuffle the data set
+        # Shuffle the data set
         dataset = dataset.shuffle(buffer_size=self.config.shuffle_size_TFRecords)
 
         # Repeat the input indefinitely
         dataset = dataset.repeat()
 
-                # Generate batches
+        # Generate batches
         dataset = dataset.batch(self.config.batch_size)
         dataset = dataset.prefetch(self.config.batch_size * 2)
 
@@ -81,13 +82,13 @@ class NetworkBuilder(object):
         iterator = dataset.make_one_shot_iterator()
         self.anc_training_batch, self.pos_training_batch = iterator.get_next()
 
-            def _build_model(self):
+    def _build_model(self):
         """Build 3DSmoothNet network for testing."""
 
         # -------------------- Network archintecture --------------------
         from core.architecture import network_architecture
 
-                # Build graph
+        # Build graph
         print("Building the 3DSmoothNet graph")
 
         self.keep_probability = tf.placeholder(tf.float32)
@@ -97,13 +98,13 @@ class NetworkBuilder(object):
                                                                         self.pos_training_batch,
                                                                         self.keep_probability, self.config)
 
-                                                                                # Build network for testing and validation that uses the placeholders for data input
+        # Build network for testing and validation that uses the placeholders for data input
         self.test_anchor_output, self.test_positive_output = network_architecture(self.anchor_input,
                                                                                   self.positive_input,
                                                                                   self.keep_probability, self.config,
                                                                                   reuse=True)
 
-                                                                                      def _build_loss(self):
+    def _build_loss(self):
         # Import the loss function
         from core import loss
 
@@ -117,7 +118,7 @@ class NetworkBuilder(object):
 
         # tf.summary.scalar("loss", self.losses)
 
-            def _build_optim(self):
+    def _build_optim(self):
         # Build the optimizer
         starter_learning_rate = self.config.learning_rate
         learning_rate = tf.train.exponential_decay(starter_learning_rate, self.global_step,
@@ -132,13 +133,13 @@ class NetworkBuilder(object):
         optimizer = tf.train.AdamOptimizer(learning_rate).minimize(self.losses, global_step=self.global_step)
         self.optimization_parameters = [optimizer, self.losses, self.summary_op]
 
-            def _build_summary(self):
+    def _build_summary(self):
         """Build summary ops."""
 
         # Merge all summary op
         self.summary = tf.summary.merge_all()
 
-            def _build_writer(self):
+    def _build_writer(self):
         self.saver = tf.train.Saver()
         self.saver = tf.train.Saver(max_to_keep=self.config.max_epochs)
 
@@ -147,7 +148,8 @@ class NetworkBuilder(object):
         self.base_file_name = 'lr_{}_batchSize_{}_outDim_{}_{}'.format(self.config.learning_rate, self.config.batch_size,
                                                                        self.config.output_dim, time_stamp)
 
-                # Initlaize writer for the tensorboard
+
+        # Initlaize writer for the tensorboard
         if not os.path.exists(self.config.log_path + '/{}_dim/'.format(self.config.output_dim)):
             os.makedirs(self.config.log_path + '/{}_dim/'.format(self.config.output_dim))
             print('Created a folder: {}'.format(self.config.log_path +
@@ -157,7 +159,7 @@ class NetworkBuilder(object):
         output_dir = os.listdir(self.config.log_path + '/{}_dim/'.format(self.config.output_dim))
         temp_names = [d.split('_') for d in output_dir]
         temp_names = list(map(int, [item[-1] for item in temp_names]))
-                if len(temp_names) == 0:
+        if len(temp_names) == 0:
             log_number = '0'
         else:
             log_number = str(np.max(temp_names) + 1)
@@ -165,7 +167,7 @@ class NetworkBuilder(object):
         tensorboard_log = self.config.log_path + '/{}_dim/'.format(self.config.output_dim) + '/run_' + log_number
         self.writer = tf.summary.FileWriter(tensorboard_log, self.sess.graph)
 
-            def train(self):
+    def train(self):
 
         # Initialize variables for accuracy values
         training_accuracy = []
@@ -176,13 +178,13 @@ class NetworkBuilder(object):
             print('Error directory: {}'.format(self.config.validation_data_folder))
             raise ValueError('The validation data directory {} does not exist.'.format(self.config.validation_data_folder))
 
-                validation_data_file = glob.glob(self.config.validation_data_folder + '*.npz')
+        validation_data_file = glob.glob(self.config.validation_data_folder + '*.npz')
         self.validation_data = np.load(validation_data_file[0])
 
         self.x_validate = self.validation_data['x']
         self.y_validate = self.validation_data['y']
 
-                self.x_validate = np.reshape(self.x_validate, newshape=(-1, int(np.cbrt(self.config.input_dim)),
+        self.x_validate = np.reshape(self.x_validate, newshape=(-1, int(np.cbrt(self.config.input_dim)),
                                                                 int(np.cbrt(self.config.input_dim)),
                                                                 int(np.cbrt(self.config.input_dim)), 1))
 
@@ -190,14 +192,14 @@ class NetworkBuilder(object):
                                                                 int(np.cbrt(self.config.input_dim)),
                                                                 int(np.cbrt(self.config.input_dim)), 1))
 
-                                                                        # Initialize all the variables
+        # Initialize all the variables
         init = tf.global_variables_initializer()
         self.sess.run(init)
 
         # If resume load the trained model
         if self.config.resume_flag:
 
-                        print("Restoring the pretrianed model from {}".format(
+            print("Restoring the pretrianed model from {}".format(
                 self.config.pretrained_model))
 
             if not os.path.exists(self.config.pretrained_model + '.index'):
@@ -212,13 +214,13 @@ class NetworkBuilder(object):
             print("Starting from the global step {}.".format(
             self.step))
 
-                    else:
+        else:
             print("Starting from scratch!")
             self.step = 0
 
         for self.step in trange(self.step, self.config.max_steps, ncols=79):
 
-           # If evaluateRate then check accuracy and save the model
+            # If evaluateRate then check accuracy and save the model
             if (self.step + 1) % self.config.evaluate_rate == 0:
                 embedded_anchor_train_features, embedded_positive_train_features = \
                     self.sess.run([self.anchor_output, self.positive_output],
@@ -233,14 +235,14 @@ class NetworkBuilder(object):
                 training_accuracy.append(training_accuracy_temp)
                 validation_accuracy.append(self.validation())
 
-                 # Save the model at the selected interval
+            # Save the model at the selected interval
             if (self.step + 1) % self.config.save_model_rate == 0:
 
                 self.saver.save(self.sess,
                                 save_path=self.config.saved_model_dir + '{}_dim/'.format(self.config.output_dim) +
                                 self.base_file_name + '_trainedModel_Iteration_{}.ckpt'.format(self.step))
 
-                                            # Save the mean accuracy to the tensorboard log at the selected interval
+            # Save the mean accuracy to the tensorboard log at the selected interval
             if (self.step + 1) % self.config.save_accuracy_rate == 0:
 
                 summary_training = tf.Summary(value=[tf.Summary.Value(tag='Training accuracy',
@@ -254,7 +256,8 @@ class NetworkBuilder(object):
                 training_accuracy = []
                 validation_accuracy = []
 
-                            # Training step
+
+            # Training step
             _, loss_value, summary = self.sess.run(self.optimization_parameters,
                                                    feed_dict={self.keep_probability: self.config.dropout_rate})
 
@@ -262,7 +265,8 @@ class NetworkBuilder(object):
             self.writer.add_summary(summary, self.step)
             self.step += 1
 
-                def test(self):
+
+    def test(self):
 
         # Check if the selected model exists
         model_path = self.config.saved_model_dir + '{}_dim/'.format(self.config.output_dim)
@@ -281,7 +285,7 @@ class NetworkBuilder(object):
             print('Evaluate input data folder {} does not exist.'.format(self.config.evaluate_input_folder))
             raise ValueError('The input data folder {} does not exist.'.format(self.config.evaluate_input_folder))
 
-           # Find all input files
+        # Find all input files
         evaluation_files = glob.glob(self.config.evaluate_input_folder + '*.csv')
 
         for file in evaluation_files:
@@ -298,7 +302,7 @@ class NetworkBuilder(object):
             all_predictions = []
             cnt = 0
 
-              start = time.time()
+            start = time.time()
             for x_test_batch in batches:
 
                 batch_predictions = self.sess.run([self.test_anchor_output], feed_dict={self.anchor_input: x_test_batch,
@@ -313,7 +317,7 @@ class NetworkBuilder(object):
 
             print('{0} features computed in {1} seconds.'.format(len(evaluation_features), end - start))
 
-             # Create output folder if it does not exist
+            # Create output folder if it does not exist
             if not os.path.exists(self.config.evaluate_output_folder + '/{}_dim/'.format(self.config.output_dim)):
                 os.makedirs(self.config.evaluate_output_folder + '/{}_dim/'.format(self.config.output_dim))
                 print('Created a folder: {}'.format(self.config.evaluate_output_folder +
@@ -331,7 +335,8 @@ class NetworkBuilder(object):
 
             print('Wrote file {0}'.format(evaluate_file_name[:-4] + '_3DSmoothNet.npz'))
 
-             def validation(self):
+
+    def validation(self):
         # Use only one batch of validation point to do inference
         indices = np.random.choice(self.x_validate.shape[0], self.config.batch_size, replace=False)
 
@@ -342,8 +347,11 @@ class NetworkBuilder(object):
 
         validation_accuracy_temp = ops.compute_accuracy(embedded_anchor_validation_features,
                                                         embedded_positive_validation_features)
-
-                                                                print('Online validation accuracy at iterration {} equals {} percent!'.format(self.step,
+        print('Online validation accuracy at iterration {} equals {} percent!'.format(self.step,
                                                                                         validation_accuracy_temp))
 
         return validation_accuracy_temp
+
+
+#
+# network.py ends here
