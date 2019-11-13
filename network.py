@@ -196,3 +196,18 @@ class NetworkBuilder(object):
 
         # If resume load the trained model
         if self.config.resume_flag:
+
+                        print("Restoring the pretrianed model from {}".format(
+                self.config.pretrained_model))
+
+            if not os.path.exists(self.config.pretrained_model + '.index'):
+                print('Error path: {}'.format(self.config.pretrained_model))
+                raise ValueError('The pretrained model {} does not exist.'.format(self.config.pretrained_model))
+
+            # Load the model (first run init as not all the variables are initialized when loaded)
+            self.saver.restore(self.sess, self.config.pretrained_model)
+
+            # Extract number of steps from the model name
+            self.step = self.sess.run(self.global_step)
+            print("Starting from the global step {}.".format(
+            self.step))
