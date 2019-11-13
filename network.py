@@ -297,3 +297,18 @@ class NetworkBuilder(object):
             batches = ops.batch_iter(list(evaluation_features), self.config.evaluation_batch_size, 1, shuffle=False)
             all_predictions = []
             cnt = 0
+
+              start = time.time()
+            for x_test_batch in batches:
+
+                batch_predictions = self.sess.run([self.test_anchor_output], feed_dict={self.anchor_input: x_test_batch,
+                                                                                        self.keep_probability: 1.0})[0]
+                if cnt == 0:
+                    all_predictions = batch_predictions
+                else:
+                    all_predictions = np.concatenate([all_predictions, batch_predictions])
+                cnt = cnt + 1
+
+            end = time.time()
+
+            print('{0} features computed in {1} seconds.'.format(len(evaluation_features), end - start))
