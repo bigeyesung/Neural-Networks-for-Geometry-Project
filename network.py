@@ -342,3 +342,8 @@ class NetworkBuilder(object):
 
         validation_accuracy_temp = ops.compute_accuracy(embedded_anchor_validation_features,
                                                         embedded_positive_validation_features)
+
+                                                                print('Online validation accuracy at iterration {} equals {} percent!'.format(self.step,
+                                                                                        validation_accuracy_temp))
+
+        return validation_accuracy_temp
