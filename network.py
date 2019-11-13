@@ -312,3 +312,21 @@ class NetworkBuilder(object):
             end = time.time()
 
             print('{0} features computed in {1} seconds.'.format(len(evaluation_features), end - start))
+
+             # Create output folder if it does not exist
+            if not os.path.exists(self.config.evaluate_output_folder + '/{}_dim/'.format(self.config.output_dim)):
+                os.makedirs(self.config.evaluate_output_folder + '/{}_dim/'.format(self.config.output_dim))
+                print('Created a folder: {}'.format(self.config.evaluate_output_folder +
+                                                    '/{}_dim/'.format(self.config.output_dim)))
+
+            # Get the name of the file
+            evaluate_file_name = file.split('/')[-1]
+
+            # Save 3DSmoothNet descriptors as *.npz and *.txt
+            np.savez_compressed(self.config.evaluate_output_folder + '/{}_dim/'.format(self.config.output_dim) +
+                                evaluate_file_name[:-4] + '_3DSmoothNet.npz', data=all_predictions)
+
+            np.savetxt(self.config.evaluate_output_folder + '/{}_dim/'.format(self.config.output_dim) +
+                       evaluate_file_name[:-4] + '_3DSmoothNet.txt', all_predictions, delimiter=',', encoding=None)
+
+            print('Wrote file {0}'.format(evaluate_file_name[:-4] + '_3DSmoothNet.npz'))
