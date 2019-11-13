@@ -33,3 +33,20 @@ def cdist(a, b, metric='euclidean'):
         When a square root is taken (such as in the Euclidean case), a small
         epsilon is added because the gradient of the square-root at zero is
         undefined. Thus, it will never return exact zero in these cases.
+
+    with tf.name_scope("cdist"):
+        diffs = all_diffs(a, b)
+        if metric == 'sqeuclidean':
+            return tf.reduce_sum(tf.square(diffs), axis=-1)
+        elif metric == 'euclidean':
+            return tf.sqrt(tf.reduce_sum(tf.square(diffs), axis=-1) + 1e-12)
+        elif metric == 'cityblock':
+            return tf.reduce_sum(tf.abs(diffs), axis=-1)
+        else:
+            raise NotImplementedError(
+                'The following metric is not implemented by `cdist` yet: {}'.format(metric))
+cdist.supported_metrics = [
+    'euclidean',
+    'sqeuclidean',
+    'cityblock',
+]
