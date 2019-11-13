@@ -58,3 +58,11 @@ def get_at_indices(tensor, indices):
 
 def batch_hard(dists, pids, margin, batch_precision_at_k=None):
     """Computes the batch-hard loss from arxiv.org/abs/1703.07737.
+
+        Args:
+        dists (2D tensor): A square all-to-all distance matrix as given by cdist.
+        pids (1D tensor): The identities of the entries in `batch`, shape (B,).
+            This can be of any type that can be compared, thus also a string.
+        margin: The value of the margin if a number, alternatively the string
+            'soft' for using the soft-margin formulation, or `None` for not
+            using a margin at all.
