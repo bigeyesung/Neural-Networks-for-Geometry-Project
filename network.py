@@ -261,3 +261,22 @@ class NetworkBuilder(object):
             # Write data for tensorboard
             self.writer.add_summary(summary, self.step)
             self.step += 1
+
+                def test(self):
+
+        # Check if the selected model exists
+        model_path = self.config.saved_model_dir + '{}_dim/'.format(self.config.output_dim)
+        model_file_name = self.config.saved_model_evaluate + '_{}_dim.ckpt'.format(self.config.output_dim)
+
+        if not os.path.exists(model_path + model_file_name + '.index'):
+            print('Model File {} does not exist!'.format(model_path + model_file_name + '.index'))
+            raise ValueError('The model {} does not exist.'.format(model_path + model_file_name + '.index'))
+
+        # If model exists, load weights
+        self.saver.restore(self.sess, model_path + model_file_name)
+        print('Loaded saved model {0}.'.format(model_path + model_file_name))
+
+        # Check if input data exists
+        if not os.path.exists(self.config.evaluate_input_folder):
+            print('Evaluate input data folder {} does not exist.'.format(self.config.evaluate_input_folder))
+            raise ValueError('The input data folder {} does not exist.'.format(self.config.evaluate_input_folder))
