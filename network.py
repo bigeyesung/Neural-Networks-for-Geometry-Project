@@ -175,3 +175,9 @@ class NetworkBuilder(object):
         if not os.path.exists(self.config.validation_data_folder):
             print('Error directory: {}'.format(self.config.validation_data_folder))
             raise ValueError('The validation data directory {} does not exist.'.format(self.config.validation_data_folder))
+
+                validation_data_file = glob.glob(self.config.validation_data_folder + '*.npz')
+        self.validation_data = np.load(validation_data_file[0])
+
+        self.x_validate = self.validation_data['x']
+        self.y_validate = self.validation_data['y']
