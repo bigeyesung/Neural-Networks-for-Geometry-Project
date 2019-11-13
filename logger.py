@@ -17,3 +17,9 @@ def loggerGenerator(name=None, level=logging.DEBUG, fileName='log.log'):
     ch = logging.StreamHandler()
     ch.setLevel(logging.ERROR)
     ch.setFormatter(formatter)
+
+        # add to the logger
+    logger.addHandler(fh)
+    logger.addHandler(ch)
+
+    return logger
