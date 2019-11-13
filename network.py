@@ -157,3 +157,10 @@ class NetworkBuilder(object):
         output_dir = os.listdir(self.config.log_path + '/{}_dim/'.format(self.config.output_dim))
         temp_names = [d.split('_') for d in output_dir]
         temp_names = list(map(int, [item[-1] for item in temp_names]))
+                if len(temp_names) == 0:
+            log_number = '0'
+        else:
+            log_number = str(np.max(temp_names) + 1)
+
+        tensorboard_log = self.config.log_path + '/{}_dim/'.format(self.config.output_dim) + '/run_' + log_number
+        self.writer = tf.summary.FileWriter(tensorboard_log, self.sess.graph)
