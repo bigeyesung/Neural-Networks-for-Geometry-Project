@@ -239,3 +239,17 @@ class NetworkBuilder(object):
                 self.saver.save(self.sess,
                                 save_path=self.config.saved_model_dir + '{}_dim/'.format(self.config.output_dim) +
                                 self.base_file_name + '_trainedModel_Iteration_{}.ckpt'.format(self.step))
+
+                                            # Save the mean accuracy to the tensorboard log at the selected interval
+            if (self.step + 1) % self.config.save_accuracy_rate == 0:
+
+                summary_training = tf.Summary(value=[tf.Summary.Value(tag='Training accuracy',
+                                                                         simple_value=np.mean(training_accuracy))])
+                summary_validation = tf.Summary(value=[tf.Summary.Value(tag='Validation accuracy',
+                                                                         simple_value=np.mean(validation_accuracy))])
+
+                self.writer.add_summary(summary_training, self.step)
+                self.writer.add_summary(summary_validation, self.step)
+
+                training_accuracy = []
+                validation_accuracy = []
