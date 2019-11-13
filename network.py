@@ -189,3 +189,10 @@ class NetworkBuilder(object):
         self.y_validate = np.reshape(self.y_validate, newshape=(-1, int(np.cbrt(self.config.input_dim)),
                                                                 int(np.cbrt(self.config.input_dim)),
                                                                 int(np.cbrt(self.config.input_dim)), 1))
+
+                                                                        # Initialize all the variables
+        init = tf.global_variables_initializer()
+        self.sess.run(init)
+
+        # If resume load the trained model
+        if self.config.resume_flag:
