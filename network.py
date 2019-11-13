@@ -280,3 +280,20 @@ class NetworkBuilder(object):
         if not os.path.exists(self.config.evaluate_input_folder):
             print('Evaluate input data folder {} does not exist.'.format(self.config.evaluate_input_folder))
             raise ValueError('The input data folder {} does not exist.'.format(self.config.evaluate_input_folder))
+
+           # Find all input files
+        evaluation_files = glob.glob(self.config.evaluate_input_folder + '*.csv')
+
+        for file in evaluation_files:
+            print('Loading test file: ' + file)
+            evaluation_features = np.fromfile(file, dtype=np.float32).reshape(-1, self.config.input_dim)
+
+            # Reshape the feature so that they fit the input format
+            evaluation_features = np.reshape(evaluation_features, newshape=(-1, int(np.cbrt(self.config.input_dim)),
+                                                                            int(np.cbrt(self.config.input_dim)),
+                                                                            int(np.cbrt(self.config.input_dim)), 1))
+
+            # Generate batches for one epoch
+            batches = ops.batch_iter(list(evaluation_features), self.config.evaluation_batch_size, 1, shuffle=False)
+            all_predictions = []
+            cnt = 0
