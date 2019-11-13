@@ -146,3 +146,14 @@ class NetworkBuilder(object):
         time_stamp = datetime.datetime.now().strftime(self.time_stamp_format)
         self.base_file_name = 'lr_{}_batchSize_{}_outDim_{}_{}'.format(self.config.learning_rate, self.config.batch_size,
                                                                        self.config.output_dim, time_stamp)
+
+                # Initlaize writer for the tensorboard
+        if not os.path.exists(self.config.log_path + '/{}_dim/'.format(self.config.output_dim)):
+            os.makedirs(self.config.log_path + '/{}_dim/'.format(self.config.output_dim))
+            print('Created a folder: {}'.format(self.config.log_path +
+                                                '/{}_dim/'.format(self.config.output_dim)))
+
+        # Check which saved files are already existing
+        output_dir = os.listdir(self.config.log_path + '/{}_dim/'.format(self.config.output_dim))
+        temp_names = [d.split('_') for d in output_dir]
+        temp_names = list(map(int, [item[-1] for item in temp_names]))
