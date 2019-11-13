@@ -50,3 +50,8 @@ cdist.supported_metrics = [
     'sqeuclidean',
     'cityblock',
 ]
+
+def get_at_indices(tensor, indices):
+    """ Like `tensor[np.arange(len(tensor)), indices]` in numpy. """
+    counter = tf.range(tf.shape(indices, out_type=indices.dtype)[0])
+    return tf.gather_nd(tensor, tf.stack((counter, indices), -1))
