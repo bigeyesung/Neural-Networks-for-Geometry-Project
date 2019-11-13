@@ -232,3 +232,10 @@ class NetworkBuilder(object):
                 # Perform a training and validation accuracy check
                 training_accuracy.append(training_accuracy_temp)
                 validation_accuracy.append(self.validation())
+
+                 # Save the model at the selected interval
+            if (self.step + 1) % self.config.save_model_rate == 0:
+
+                self.saver.save(self.sess,
+                                save_path=self.config.saved_model_dir + '{}_dim/'.format(self.config.output_dim) +
+                                self.base_file_name + '_trainedModel_Iteration_{}.ckpt'.format(self.step))
