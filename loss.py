@@ -55,3 +55,6 @@ def get_at_indices(tensor, indices):
     """ Like `tensor[np.arange(len(tensor)), indices]` in numpy. """
     counter = tf.range(tf.shape(indices, out_type=indices.dtype)[0])
     return tf.gather_nd(tensor, tf.stack((counter, indices), -1))
+
+def batch_hard(dists, pids, margin, batch_precision_at_k=None):
+    """Computes the batch-hard loss from arxiv.org/abs/1703.07737.
