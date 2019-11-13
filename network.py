@@ -330,3 +330,15 @@ class NetworkBuilder(object):
                        evaluate_file_name[:-4] + '_3DSmoothNet.txt', all_predictions, delimiter=',', encoding=None)
 
             print('Wrote file {0}'.format(evaluate_file_name[:-4] + '_3DSmoothNet.npz'))
+
+             def validation(self):
+        # Use only one batch of validation point to do inference
+        indices = np.random.choice(self.x_validate.shape[0], self.config.batch_size, replace=False)
+
+        embedded_anchor_validation_features, embedded_positive_validation_features = self.sess.run(
+            [self.test_anchor_output, self.test_positive_output],
+            feed_dict={self.anchor_input: self.x_validate[indices], self.positive_input: self.y_validate[indices],
+                       self.keep_probability: 1.0})[0:2]
+
+        validation_accuracy_temp = ops.compute_accuracy(embedded_anchor_validation_features,
+                                                        embedded_positive_validation_features)
