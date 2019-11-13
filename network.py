@@ -164,3 +164,14 @@ class NetworkBuilder(object):
 
         tensorboard_log = self.config.log_path + '/{}_dim/'.format(self.config.output_dim) + '/run_' + log_number
         self.writer = tf.summary.FileWriter(tensorboard_log, self.sess.graph)
+
+            def train(self):
+
+        # Initialize variables for accuracy values
+        training_accuracy = []
+        validation_accuracy = []
+
+        # Load validation data
+        if not os.path.exists(self.config.validation_data_folder):
+            print('Error directory: {}'.format(self.config.validation_data_folder))
+            raise ValueError('The validation data directory {} does not exist.'.format(self.config.validation_data_folder))
