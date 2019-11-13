@@ -217,3 +217,18 @@ class NetworkBuilder(object):
             self.step = 0
 
         for self.step in trange(self.step, self.config.max_steps, ncols=79):
+
+           # If evaluateRate then check accuracy and save the model
+            if (self.step + 1) % self.config.evaluate_rate == 0:
+                embedded_anchor_train_features, embedded_positive_train_features = \
+                    self.sess.run([self.anchor_output, self.positive_output],
+                                  feed_dict={self.keep_probability: 1.0})[0:2]
+
+                training_accuracy_temp = ops.compute_accuracy(embedded_anchor_train_features,
+                                                              embedded_positive_train_features)
+
+                print('\nOnline training accuracy at iterration {} equals {} percent!'.format(self.step,
+                                                                                                training_accuracy_temp))
+                # Perform a training and validation accuracy check
+                training_accuracy.append(training_accuracy_temp)
+                validation_accuracy.append(self.validation())
