@@ -181,3 +181,11 @@ class NetworkBuilder(object):
 
         self.x_validate = self.validation_data['x']
         self.y_validate = self.validation_data['y']
+
+                self.x_validate = np.reshape(self.x_validate, newshape=(-1, int(np.cbrt(self.config.input_dim)),
+                                                                int(np.cbrt(self.config.input_dim)),
+                                                                int(np.cbrt(self.config.input_dim)), 1))
+
+        self.y_validate = np.reshape(self.y_validate, newshape=(-1, int(np.cbrt(self.config.input_dim)),
+                                                                int(np.cbrt(self.config.input_dim)),
+                                                                int(np.cbrt(self.config.input_dim)), 1))
