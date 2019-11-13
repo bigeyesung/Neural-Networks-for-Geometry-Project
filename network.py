@@ -211,3 +211,9 @@ class NetworkBuilder(object):
             self.step = self.sess.run(self.global_step)
             print("Starting from the global step {}.".format(
             self.step))
+
+                    else:
+            print("Starting from scratch!")
+            self.step = 0
+
+        for self.step in trange(self.step, self.config.max_steps, ncols=79):
