@@ -253,3 +253,11 @@ class NetworkBuilder(object):
 
                 training_accuracy = []
                 validation_accuracy = []
+
+                            # Training step
+            _, loss_value, summary = self.sess.run(self.optimization_parameters,
+                                                   feed_dict={self.keep_probability: self.config.dropout_rate})
+
+            # Write data for tensorboard
+            self.writer.add_summary(summary, self.step)
+            self.step += 1
