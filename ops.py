@@ -37,3 +37,8 @@ def weight(shape, layer_name, weight_initializer=None,reuse=False):
 
     def relu(x):
     return tf.nn.relu(x)
+
+    def batch_norm(x):
+    epsilon = 1e-3
+    batch_mean, batch_var = tf.nn.moments(x, [0])
+    return tf.nn.batch_normalization(x, batch_mean, batch_var, None, None, epsilon)
