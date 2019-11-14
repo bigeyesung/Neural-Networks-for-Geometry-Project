@@ -84,3 +84,14 @@ def batch_hard(dists, pids, margin, batch_precision_at_k=None):
                                     (dists, negative_mask), tf.float32)
         # Another way of achieving the same, though more hacky:
         # closest_negative = tf.reduce_min(dists + 1e5*tf.cast(same_identity_mask, tf.float32), axis=1)
+
+                diff = furthest_positive - closest_negative
+        if isinstance(margin, numbers.Real):
+            diff = tf.maximum(diff + margin, 0.0)
+        elif margin == 'soft':
+            diff = tf.nn.softplus(diff)
+        elif margin.lower() == 'none':
+            pass
+        else:
+            raise NotImplementedError(
+                'The margin {} is not implemented in batch_hard'.format(margin))
