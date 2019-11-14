@@ -19,3 +19,9 @@ def weight(shape, layer_name, weight_initializer=None,reuse=False):
 
     def bias(shape, layer_name,reuse=False):
     bias_init = tf.constant_initializer(0.01)
+
+     with tf.name_scope(layer_name):
+        with tf.variable_scope('', reuse=reuse):
+            biases = tf.get_variable(layer_name + '_b',  shape=shape,
+                                     dtype=tf.float32, initializer=bias_init)  # default initialier: glorot_uniform_initializer
+    return biases
