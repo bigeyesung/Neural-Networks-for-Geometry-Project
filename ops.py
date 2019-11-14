@@ -45,4 +45,6 @@ def weight(shape, layer_name, weight_initializer=None,reuse=False):
 
     def l2_normalize(x):
     return tf.nn.l2_normalize(x, axis=1, epsilon=1e-12, name=None)
-    
+
+    def dropout(x,dropout_rate=0.7):
+    return tf.nn.dropout(x,keep_prob=dropout_rate,noise_shape=None,seed=None,name=None)
