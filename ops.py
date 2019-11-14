@@ -63,3 +63,9 @@ def weight(shape, layer_name, weight_initializer=None,reuse=False):
     def flatten_list(l):
     flat_list = [item for sublist in l for item in sublist]
     return flat_list
+
+    def _parse_function(example_proto):
+    inputFormat = (16,16,16,1)
+    keys_to_features = {'X': tf.FixedLenFeature(inputFormat, tf.float32),
+                        'Y': tf.FixedLenFeature(inputFormat, tf.float32)}
+    parsed_features = tf.parse_single_example(example_proto, keys_to_features)
