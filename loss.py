@@ -115,3 +115,17 @@ def batch_hard(dists, pids, margin, batch_precision_at_k=None):
         batch_index = tf.tile(
             tf.expand_dims(tf.range(tf.shape(indices)[0]), 1),
             (1, tf.shape(indices)[1]))
+
+               # Stitch the above together with the argsort indices to get the
+        # indices of the top-k of each row.
+        topk_indices = tf.stack((batch_index, indices), -1)
+
+        # See if the topk belong to the same person as they should, or not.
+        topk_is_same = tf.gather_nd(same_identity_mask, topk_indices)
+
+        # All of the above could be reduced to the simpler following if k==1
+        #top1_is_same = get_at_indices(same_identity_mask, top_idxs[:,1])
+
+        topk_is_same_f32 = tf.cast(topk_is_same, tf.float32)
+        top1 = tf.reduce_mean(topk_is_same_f32[:,0])
+        prec_at_k = tf.reduce_mean(topk_is_same_f32)
