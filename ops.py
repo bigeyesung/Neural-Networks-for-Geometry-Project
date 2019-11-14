@@ -14,3 +14,5 @@ def weight(shape, layer_name, weight_initializer=None,reuse=False):
         with tf.variable_scope(layer_name, reuse=reuse):
             weights = tf.get_variable(layer_name + "_W", shape=shape,
                                       dtype=tf.float32, initializer=weight_initializer)
+                                          tf.summary.histogram(layer_name, weights)
+    return weights
