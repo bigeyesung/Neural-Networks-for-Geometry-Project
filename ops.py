@@ -48,3 +48,10 @@ def weight(shape, layer_name, weight_initializer=None,reuse=False):
 
     def dropout(x,dropout_rate=0.7):
     return tf.nn.dropout(x,keep_prob=dropout_rate,noise_shape=None,seed=None,name=None)
+
+    def compute_accuracy(embeddedRefFeatures, embeddedValFeatures):
+    numberOfTestPoints = embeddedRefFeatures.shape[0]
+    neigh = NearestNeighbors(n_neighbors=1, algorithm='kd_tree', metric='euclidean')
+    neigh.fit(embeddedRefFeatures)
+    distNeighNormal, indNeighNormal = neigh.kneighbors(embeddedValFeatures)
+    referenceNeighbors = np.reshape(np.arange(numberOfTestPoints), newshape=(-1, 1))
