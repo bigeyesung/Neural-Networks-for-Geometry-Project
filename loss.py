@@ -136,3 +136,7 @@ def batch_hard(dists, pids, margin, batch_precision_at_k=None):
         positive_dists = tf.boolean_mask(dists, same_identity_mask)
 
         return diff, top1, prec_at_k, topk_is_same, negative_dists, positive_dists
+
+LOSS_CHOICES = {
+    'batch_hard': batch_hard,
+}
