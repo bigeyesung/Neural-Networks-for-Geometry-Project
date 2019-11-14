@@ -95,3 +95,7 @@ def batch_hard(dists, pids, margin, batch_precision_at_k=None):
         else:
             raise NotImplementedError(
                 'The margin {} is not implemented in batch_hard'.format(margin))
+
+                    if batch_precision_at_k is None:
+        tf.summary.scalar('loss', tf.reduce_mean(diff))
+        return diff
