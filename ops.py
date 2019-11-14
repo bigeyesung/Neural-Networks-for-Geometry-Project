@@ -28,3 +28,6 @@ def weight(shape, layer_name, weight_initializer=None,reuse=False):
 
     def conv3d(x,filtertype , stride, padding):
     return tf.nn.conv3d(x, filter=filtertype, strides=[1, stride[0], stride[1], stride[2], 1], padding=padding)
+
+    def max_pool3d(x, kernel, stride, padding):
+    return tf.nn.max_pool3d(x, ksize=kernel, strides=stride, padding=padding)
