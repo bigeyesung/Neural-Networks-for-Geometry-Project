@@ -59,3 +59,7 @@ def weight(shape, layer_name, weight_initializer=None,reuse=False):
         wrongMatches = np.count_nonzero(indNeighNormal - referenceNeighbors)
     accuracy = (1 - wrongMatches / numberOfTestPoints) * 100
     return accuracy
+
+    def flatten_list(l):
+    flat_list = [item for sublist in l for item in sublist]
+    return flat_list
