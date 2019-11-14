@@ -25,3 +25,6 @@ def weight(shape, layer_name, weight_initializer=None,reuse=False):
             biases = tf.get_variable(layer_name + '_b',  shape=shape,
                                      dtype=tf.float32, initializer=bias_init)  # default initialier: glorot_uniform_initializer
     return biases
+
+    def conv3d(x,filtertype , stride, padding):
+    return tf.nn.conv3d(x, filter=filtertype, strides=[1, stride[0], stride[1], stride[2], 1], padding=padding)
