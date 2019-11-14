@@ -129,3 +129,10 @@ def batch_hard(dists, pids, margin, batch_precision_at_k=None):
         topk_is_same_f32 = tf.cast(topk_is_same, tf.float32)
         top1 = tf.reduce_mean(topk_is_same_f32[:,0])
         prec_at_k = tf.reduce_mean(topk_is_same_f32)
+
+          # Finally, let's get some more info that can help in debugging while
+        # we're at it!
+        negative_dists = tf.boolean_mask(dists, negative_mask)
+        positive_dists = tf.boolean_mask(dists, same_identity_mask)
+
+        return diff, top1, prec_at_k, topk_is_same, negative_dists, positive_dists
