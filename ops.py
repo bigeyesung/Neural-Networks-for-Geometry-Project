@@ -42,3 +42,7 @@ def weight(shape, layer_name, weight_initializer=None,reuse=False):
     epsilon = 1e-3
     batch_mean, batch_var = tf.nn.moments(x, [0])
     return tf.nn.batch_normalization(x, batch_mean, batch_var, None, None, epsilon)
+
+    def l2_normalize(x):
+    return tf.nn.l2_normalize(x, axis=1, epsilon=1e-12, name=None)
+    
