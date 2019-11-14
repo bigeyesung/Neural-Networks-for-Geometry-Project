@@ -69,3 +69,5 @@ def weight(shape, layer_name, weight_initializer=None,reuse=False):
     keys_to_features = {'X': tf.FixedLenFeature(inputFormat, tf.float32),
                         'Y': tf.FixedLenFeature(inputFormat, tf.float32)}
     parsed_features = tf.parse_single_example(example_proto, keys_to_features)
+
+       return parsed_features['X'], parsed_features['Y']
