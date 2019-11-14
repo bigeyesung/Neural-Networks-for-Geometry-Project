@@ -31,3 +31,6 @@ def weight(shape, layer_name, weight_initializer=None,reuse=False):
 
     def max_pool3d(x, kernel, stride, padding):
     return tf.nn.max_pool3d(x, ksize=kernel, strides=stride, padding=padding)
+
+    def avg_pool3d(x, kernel, stride, padding):
+    return tf.nn.avg_pool3d(x, ksize=kernel, strides=stride, padding=padding)
