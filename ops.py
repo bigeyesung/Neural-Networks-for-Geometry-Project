@@ -55,3 +55,7 @@ def weight(shape, layer_name, weight_initializer=None,reuse=False):
     neigh.fit(embeddedRefFeatures)
     distNeighNormal, indNeighNormal = neigh.kneighbors(embeddedValFeatures)
     referenceNeighbors = np.reshape(np.arange(numberOfTestPoints), newshape=(-1, 1))
+
+        wrongMatches = np.count_nonzero(indNeighNormal - referenceNeighbors)
+    accuracy = (1 - wrongMatches / numberOfTestPoints) * 100
+    return accuracy
