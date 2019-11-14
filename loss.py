@@ -69,3 +69,18 @@ def batch_hard(dists, pids, margin, batch_precision_at_k=None):
         margin: The value of the margin if a number, alternatively the string
             'soft' for using the soft-margin formulation, or `None` for not
             using a margin at all.
+    Returns:
+        A 1D tensor of shape (B,) containing the loss value for each sample.
+    """
+    with tf.name_scope("batch_hard"):
+        same_identity_mask = tf.equal(tf.expand_dims(pids, axis=1),
+                                      tf.expand_dims(pids, axis=0))
+        negative_mask = tf.logical_not(same_identity_mask)
+        #positive_mask = tf.logical_xor(same_identity_mask,
+        #                              tf.eye(tf.shape(pids)[0], dtype=tf.bool))
+
+        furthest_positive = tf.reduce_max(dists*tf.cast(same_identity_mask, tf.float32), axis=1)
+        closest_negative = tf.map_fn(lambda x: tf.reduce_min(tf.boolean_mask(x[0], x[1])),
+                                    (dists, negative_mask), tf.float32)
+        # Another way of achieving the same, though more hacky:
+        # closest_negative = tf.reduce_min(dists + 1e5*tf.cast(same_identity_mask, tf.float32), axis=1)
