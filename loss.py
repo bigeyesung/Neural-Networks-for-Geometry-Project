@@ -99,3 +99,19 @@ def batch_hard(dists, pids, margin, batch_precision_at_k=None):
                     if batch_precision_at_k is None:
         tf.summary.scalar('loss', tf.reduce_mean(diff))
         return diff
+
+         # For monitoring, compute the within-batch top-1 accuracy and the
+    # within-batch precision-at-k, which is somewhat more expressive.
+    with tf.name_scope("monitoring"):
+        # This is like argsort along the last axis. Add one to K as we'll
+        # drop the diagonal.
+        _, indices = tf.nn.top_k(-dists, k=batch_precision_at_k+1)
+
+        # Drop the diagonal (distance to self is always least).
+        indices = indices[:,1:]
+
+        # Generate the index indexing into the batch dimension.
+        # This is simething like [[0,0,0],[1,1,1],...,[B,B,B]]
+        batch_index = tf.tile(
+            tf.expand_dims(tf.range(tf.shape(indices)[0]), 1),
+            (1, tf.shape(indices)[1]))
