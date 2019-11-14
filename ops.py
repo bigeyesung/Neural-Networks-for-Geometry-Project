@@ -16,3 +16,6 @@ def weight(shape, layer_name, weight_initializer=None,reuse=False):
                                       dtype=tf.float32, initializer=weight_initializer)
                                           tf.summary.histogram(layer_name, weights)
     return weights
+
+    def bias(shape, layer_name,reuse=False):
+    bias_init = tf.constant_initializer(0.01)
