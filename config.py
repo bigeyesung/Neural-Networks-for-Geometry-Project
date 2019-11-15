@@ -35,3 +35,24 @@ test_arg.add_argument('--saved_model_dir', type=str, default='./models/',
                      help='the directory of the pre-trained model')
 test_arg.add_argument('--saved_model_evaluate', type=str, default='3DSmoothNet',
                      help='file name of the model to load')
+
+# Training
+train_arg = add_argument_group("Train")
+train_arg.add_argument("--input_data_folder", type=str, default="./data/train/input_data/",
+                      help='prefix for the input folder locations')
+train_arg.add_argument("--output_data_folder", type=str, default="./data/train/output_data/",
+                      help='prefix for the output folder locations')
+train_arg.add_argument('--max_steps', type=int, default=20000000,
+                       help='maximum number of training iterations')
+train_arg.add_argument('--max_epochs', type=int, default=20,
+                       help='maximum number of training epochs')
+train_arg.add_argument('--batch_size', type=int, default=256,
+                       help='the number of training examples for each iteration')
+train_arg.add_argument('--learning_rate', type=float, default=1e-3,
+                       help='the initial learning rate')
+train_arg.add_argument('--evaluate_rate', type=int, default=100,
+                       help='frequency of evaluation')
+train_arg.add_argument('--save_model_rate', type=int, default=1000,
+                       help='the frequency of saving the check point')
+train_arg.add_argument('--save_accuracy_rate', type=int, default=500,
+                       help='the frequency of saving the training and validation accuracy')
