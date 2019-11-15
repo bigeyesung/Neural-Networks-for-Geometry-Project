@@ -79,3 +79,7 @@ train_arg.add_argument('--pretrained_model', type=str, default="./models/32_dim/
 valid_arg = add_argument_group("Validation")
 train_arg.add_argument('--validation_data_folder', type=str, default="./data/validation/validationData3Dmatch/",
                        help='location of the validation data files')
+
+def get_config():
+    config, unparsed = parser.parse_known_args()
+    return config, unparsed
