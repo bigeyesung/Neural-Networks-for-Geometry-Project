@@ -71,3 +71,10 @@ def weight(shape, layer_name, weight_initializer=None,reuse=False):
     parsed_features = tf.parse_single_example(example_proto, keys_to_features)
 
        return parsed_features['X'], parsed_features['Y']
+def batch_iter(data, batch_size, num_epochs, shuffle=True):
+    """
+    Generates a batch iterator for a dataset.
+    """
+    data = np.array(data)
+    data_size = len(data)
+    num_batches_per_epoch = int((len(data)-1)/batch_size) + 1
