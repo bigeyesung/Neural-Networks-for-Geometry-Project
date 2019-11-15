@@ -83,3 +83,6 @@ train_arg.add_argument('--validation_data_folder', type=str, default="./data/val
 def get_config():
     config, unparsed = parser.parse_known_args()
     return config, unparsed
+
+def print_usage():
+    parser.print_usage()
