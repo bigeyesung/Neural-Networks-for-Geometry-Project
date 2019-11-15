@@ -17,3 +17,15 @@ def npy_to_tfrecords(features,pairs,output_file):
         feature = {}
         feature['X'] = tf.train.Feature(float_list=tf.train.FloatList(value=features[pairs[index,0],:]))
         feature['Y'] = tf.train.Feature(float_list=tf.train.FloatList(value=features[pairs[index,1],:]))
+
+                # Construct the Example proto object
+        example = tf.train.Example(features=tf.train.Features(feature=feature))
+
+        # Serialize the example to a string
+        serialized = example.SerializeToString()
+
+        # write the serialized objec to the disk
+        writer.write(serialized)
+
+
+    writer.close()
