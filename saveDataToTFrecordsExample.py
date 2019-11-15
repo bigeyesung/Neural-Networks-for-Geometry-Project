@@ -37,3 +37,6 @@ indicesFolder = 'Correspondences/'
 
 tempPairs = np.load(directory + indicesFolder + 'mapped_indices.npz')
 pairs = tempPairs['mapped_indices'].astype(int)
+
+tempFeatures = np.load(directory + featuresFolder + '_Training.npz')
+features = tempFeatures['data']
