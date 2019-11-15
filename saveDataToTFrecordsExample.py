@@ -29,3 +29,8 @@ def npy_to_tfrecords(features,pairs,output_file):
 
 
     writer.close()
+
+    directory = sys.argv[1]
+string = directory.split('/')
+featuresFolder = '03_Features/'
+indicesFolder = 'Correspondences/'
