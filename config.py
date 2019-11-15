@@ -22,3 +22,16 @@ net_arg.add_argument('--output_dim', type=int, default=32,
                      help='the dimension of the learned local descriptor')
 net_arg.add_argument('--log_path', type=str, default='./logs',
                      help='path to the directory with the tensorboard logs')
+
+                     # Test
+test_arg = add_argument_group("Evaluate")
+test_arg.add_argument("--evaluate_input_folder", type=str, default="./data/evaluate/input_data/",
+                          help='prefix for the input folder locations')
+test_arg.add_argument("--evaluate_output_folder", type=str, default="./data/evaluate/output_data/",
+                          help='prefix for the output folder locations')
+test_arg.add_argument('--evaluation_batch_size', type=int, default=1000,
+                          help='the number of examples for each iteration of inference')
+test_arg.add_argument('--saved_model_dir', type=str, default='./models/',
+                     help='the directory of the pre-trained model')
+test_arg.add_argument('--saved_model_evaluate', type=str, default='3DSmoothNet',
+                     help='file name of the model to load')
