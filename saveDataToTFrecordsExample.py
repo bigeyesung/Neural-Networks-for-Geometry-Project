@@ -40,3 +40,7 @@ pairs = tempPairs['mapped_indices'].astype(int)
 
 tempFeatures = np.load(directory + featuresFolder + '_Training.npz')
 features = tempFeatures['data']
+
+output_file = '/cluster/scratch/zgojcic/createTrainingData/completed/trainingData/' + 'file_{}.tfrecord'.format(string[5])
+
+npy_to_tfrecords(features,pairs,output_file)
