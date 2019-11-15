@@ -34,3 +34,6 @@ def npy_to_tfrecords(features,pairs,output_file):
 string = directory.split('/')
 featuresFolder = '03_Features/'
 indicesFolder = 'Correspondences/'
+
+tempPairs = np.load(directory + indicesFolder + 'mapped_indices.npz')
+pairs = tempPairs['mapped_indices'].astype(int)
