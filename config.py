@@ -56,3 +56,20 @@ train_arg.add_argument('--save_model_rate', type=int, default=1000,
                        help='the frequency of saving the check point')
 train_arg.add_argument('--save_accuracy_rate', type=int, default=500,
                        help='the frequency of saving the training and validation accuracy')
+
+train_arg.add_argument('--margin', type=str, default='soft',
+                       help='the margin fucntion used for the loss')
+train_arg.add_argument('--dropout_rate', type=float, default=0.7,
+                       help='the keep probability')
+train_arg.add_argument('--resume_flag', type=int, default=0,
+                       help='the flag for training using the pre-trained model (1) or not (0)')
+train_arg.add_argument('--decay_rate', type=float, default=0.95,
+                       help='the rate of exponential learning rate decaying')
+train_arg.add_argument('--decay_step', type=int, default=5000,
+                       help='the frequency of exponential learning rate decaying')
+train_arg.add_argument('--shuffle_size_TFRecords', type=int, default=5000,
+                       help='the shuffle buffer size of the TFRecords')
+train_arg.add_argument('--training_data_folder', type=str, default="./data/train/trainingData3DMatch",
+                       help='location of the training data files')
+train_arg.add_argument('--pretrained_model', type=str, default="./models/32_dim/3DSmoothNet_32_dim.ckpt",
+                       help='pretrained model which will be used if resume is activared')
